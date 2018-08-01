@@ -1,0 +1,5 @@
+redis_url: redis://localhost/0
+zensend_api_key: "mktpjdgflKZb9TeFS9C60w"
+# generate a secret key if you're deploying in production
+# secret_key: secretekey
+# Could not find backports-3.6.8 in any of the sources
