@@ -3,28 +3,59 @@ FONIX - Interview Test SMS Validation
 <!DOCTYPE html><html lang="en"><head>
 <meta charset="utf-8">
 <title>FONIX - SMS Validation Test</title>
-<link rel='stylesheet' href='style.css' type='text/css' />
-</head>
+<link rel='stylesheet' href='css/style.css' type='text/css' />
 
-<body onload='document.form1.text1.focus()' style="background : #D8F1F8;">
+    <link rel="stylesheet" href="css/intlTelInput.css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/intlTelInput.min.js"></script>
+
+    <style type="text/css">
+      #number_error { 
+        display: none;
+        color: red;
+      }
+      #generic_error {
+        color: red;
+      }
+    </style>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("#msisdn").intlTelInput({"utilsScript":"js/utils.js"});
+        $("#verify_form").on("submit", function(e) {
+
+          if (!$("#msisdn").intlTelInput("isValidNumber")) {
+            e.preventDefault();
+            $("#number_error").show();
+            return;
+          }
+
+          $("#number_error").hide();
+          $("#generic_error").hide();
+
+          var number = $("#msisdn").intlTelInput("getNumber");
+          $("#msisdn").val(number);
+        });
+      });
+    </script>
+
+  </head>
+
+  <body>
 <CENTER>
 <H1>FONIX - SMS Validation Test</H1>
-<div class="mail">
-<h2>Input you Phone No.</h2>
-<h2>[+xx-xxx-xxxx-xxx]</h2>
-<h2>to receive an SMS validation code and Submit</h2>
-<form name="form1" action="#" class="-myForm"> 
-<ul>
-<li><input type='text' name='text1'/></li>
-<li>&nbsp;</li>
-<a href="sms://+447939917168?body=I%27m%20FONIX%20SMS%20Validation%20test.%20VALIDATION_CODE%20:%20:">===
-<li class="submit"><input type="submit" name="submit" value="Submit" onclick="phonenumber(document.form1.text1)"/></li>
-===</a>
-<li>&nbsp;</li>
-</ul>
-</form>
-</div>
-<script src="phoneno.js"></script>
-</CENTER>
-</body>
+
+    <p>Please enter your phone number and we will send you a token to verify it</p>
+    <form method="POST" action="/verify_number" id="verify_form">
+      <input id="msisdn" type="text" name="msisdn" />
+      <input type="submit" value="Send Token"/>
+      <div id="number_error">Invalid Number</div>
+
+      
+
+    </form>
+
+
+  </body>
 </html>
